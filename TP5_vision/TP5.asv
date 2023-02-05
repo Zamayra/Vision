@@ -1,0 +1,26 @@
+
+I = imread('image1.bmp');
+It2 = imread('image1.bmp');
+
+I = I(:,:,1);
+It2 = It2(:,:,1);
+
+
+ [Vx, Vy] = derives(I, It2);
+
+[largeur, hauteur] = size(Vx);
+
+k = 10;
+
+R = 128 + k*Vx;
+V = 128 + k*Vy;
+B = ones(largeur, hauteur) * 255;
+
+mouvement = [R;V;B];
+
+%figure();
+%imagesc(I);
+%colormap(gray(256));
+
+figure();
+image(mouvement);
