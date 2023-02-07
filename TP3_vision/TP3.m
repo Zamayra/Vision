@@ -1,4 +1,4 @@
-﻿% TP3 Hough Transforms
+%% TP3 Hough Transforms
 % Zamayra Hernandez & Kosma Przyjemski
 
 %% I. Modeling of line segments

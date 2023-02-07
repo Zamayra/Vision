@@ -1,9 +1,10 @@
-function [Vx, Vy] = derives(I, It2)
+function [Vx, Vy, lambda] = derives(I, It2)
 
 [largeur, hauteur] = size(I);
 
 Vx = I(1:largeur-2,1:hauteur-2);
 Vy = Vx;
+lambda = [];
 
 for x=1:largeur-3
     for y=1:hauteur-3
@@ -39,7 +40,7 @@ for x=1:largeur-3
              sumYt];
          
         V = linsolve(H,-b);
-        lambda = eig(H);
+        lambda = [lambda, eig(H)];
 
         Vx(x,y) = V(1);
         Vy(x,y) = V(2);
