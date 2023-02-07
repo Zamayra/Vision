@@ -6,11 +6,11 @@ I = I(:,:,1);
 It2 = It2(:,:,1);
 
 
- [Vx, Vy, lambda] = derives(I, It2);
+ [Vx, Vy, lambda] = derivesFiables(I, It2, 1000);
 
 [largeur, hauteur] = size(Vx);
 
-k = 10;
+k = 50;
 
 R = 128 + k*Vx;
 V = 128 + k*Vy;
@@ -58,4 +58,5 @@ mouvement2(:,:,3) = Babs;
 figure();
 image(uint8(mouvement2));
 title('Valeurs fiables');
+
 
