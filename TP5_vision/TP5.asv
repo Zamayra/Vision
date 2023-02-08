@@ -5,32 +5,38 @@ It2 = double(imread('image2.bmp'));
 I = I(:,:,1);
 It2 = It2(:,:,1);
 
-
- [Vx, Vy] = derives(I, It2);
-
-[largeur, hauteur] = size(Vx);
-
-k = 10;
-
-R = 128 + k*Vx;
-V = 128 + k*Vy;
-B = ones(largeur, hauteur) * 255;
-
-mouvement=zeros(largeur,hauteur,3);
-mouvement(:,:,1) = R;
-mouvement(:,:,2) = V;
-mouvement(:,:,3) = B;
+% [Vx, Vy, lambda] = derives(I, It2);    % Q1
+% [Vx, Vy, lambda] = derivesFiables(I, It2, 3000);   %Q2
+mouvement3 = derivesFiablesVoisinage(I, It2, 3000, 3, 100);   %Q3
+mouvement5 = derivesFiablesVoisinage(I, It2, 3000, 5, 100);
+mouvement7 = derivesFiablesVoisinage(I, It2, 3000, 7, 100);
+mouvement9 = derivesFiablesVoisinage(I, It2, 3000, 9, 100);
+mouvement11 = derivesFiablesVoisinage(I, It2, 3000, 11, 100);
 
 %figure();
 %imagesc(I);
 %colormap(gray(256));
 
 figure();
-image(uint8(mouvement));
+image(uint8(mouvement3));
+title('Lucas & Kanade 3x3');
+
+figure();
+image(uint8(mouvement5));
+title('Lucas & Kanade 5x5');
+
+figure();
+image(uint8(mouvement7));
+title('Lucas & Kanade 7x7');
+
+figure();
+image(uint8(mouvement9));
+title('Lucas & Kanade 9x9');
+
+figure();
+image(uint8(mouvement11));
+title('Lucas & Kanade 11x11');
 
 %On voit le mouvement dans les nombres de calendirer 
 
-%%
-
-mouvementFiable = abs(mouvement);
 

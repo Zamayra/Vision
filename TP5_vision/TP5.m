@@ -5,58 +5,38 @@ It2 = double(imread('image2.bmp'));
 I = I(:,:,1);
 It2 = It2(:,:,1);
 
-
- [Vx, Vy, lambda] = derivesFiables(I, It2, 1000);
-
-[largeur, hauteur] = size(Vx);
-
-k = 50;
-
-R = 128 + k*Vx;
-V = 128 + k*Vy;
-B = ones(largeur, hauteur) * 255;
-
-mouvement=zeros(largeur,hauteur,3);
-mouvement(:,:,1) = R;
-mouvement(:,:,2) = V;
-mouvement(:,:,3) = B;
+% [Vx, Vy, lambda] = derives(I, It2);    % Q1
+% [Vx, Vy, lambda] = derivesFiables(I, It2, 3000);   %Q2
+mouvement3 = derivesFiablesVoisinage(I, It2, 3000, 3, 100);   %Q3
+mouvement5 = derivesFiablesVoisinage(I, It2, 4000, 5, 100);
+mouvement7 = derivesFiablesVoisinage(I, It2, 5000, 7, 100);
+mouvement9 = derivesFiablesVoisinage(I, It2, 6000, 9, 100);
+mouvement11 = derivesFiablesVoisinage(I, It2, 7000, 11, 100);
 
 %figure();
 %imagesc(I);
 %colormap(gray(256));
 
 figure();
-image(uint8(mouvement));
-title('Lucas & Kanade');
-
-%On voit le mouvement dans les nombres de calendirer 
-
-
-%%
-seuilR = 200;
-seuilV = 200;
-Rabs = abs(R);
-Vabs = abs(V);
-Babs = B;
-
-for x=1:largeur
-    for y=1:hauteur
-        if Rabs(x,y) < seuilR
-            Rabs(x,y) = 0;
-        end
-        if Vabs(x,y) < seuilV
-            Vabs(x,y) = 0;
-        end
-    end
-end
-
-mouvement2=zeros(largeur,hauteur,3);
-mouvement2(:,:,1) = Rabs;
-mouvement2(:,:,2) = Vabs;
-mouvement2(:,:,3) = Babs;
+image(uint8(mouvement3));
+title('Lucas & Kanade 3x3');
 
 figure();
-image(uint8(mouvement2));
-title('Valeurs fiables');
+image(uint8(mouvement5));
+title('Lucas & Kanade 5x5');
+
+figure();
+image(uint8(mouvement7));
+title('Lucas & Kanade 7x7');
+
+figure();
+image(uint8(mouvement9));
+title('Lucas & Kanade 9x9');
+
+figure();
+image(uint8(mouvement11));
+title('Lucas & Kanade 11x11');
+
+%On voit le mouvement dans les nombres de calendirer 
 
 
