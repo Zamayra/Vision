@@ -1,0 +1,92 @@
+% TP3 Hough Transforms
+% Zamayra Hernandez & Kosma Przyjemski
+
+%% I. Modeling of line segments
+% Image binarisation
+image1 = imread('image1.jpg');
+
+[Gmag, Gdir] = imgradient(image1,'prewitt'); % Gmag = magnitude gradient
+binary_image1 = binarize(abs(Gmag), 70); % abs(Gmag) car possiblement des valeurs negatives
+figure();
+imagesc(binary_image1);
+colormap(gray(256));
+
+% Voting space
+R = radon_transform(binary_image1);
+figure();
+imagesc(log(R+1));
+colormap(gray(256));
+
+%% II. Reconnaissance de segments de droite
+V=R;
+[V_width, V_height] = size(V);
+[width, height] = size(binary_image1);
+
+% k=1;
+% k=4;
+k=5
+% k=10;
+% k=20;
+epsilum = 0.1;
+
+k_max = zeros(1,k);
+k_rho = zeros(1,k);
+k_theta = zeros(1,k);
+k_segments = zeros(1,k);
+
+k_x1 = zeros(1,k);
+k_y1 = zeros(1,k);
+k_x2 = zeros(1,k);
+k_y2 = zeros(1,k);
+
+% affichage
+figure();
+hold on;
+imagesc(binary_image1);
+colormap(gray(256));
+
+for i=1:k
+    % initialising max to 0 for each point to find
+    max=0;
+    for rho=1:V_width
+        for theta=1:V_height
+            % finding max of the matrix
+            if V(rho,theta)>max
+                max = V(rho,theta);
+                rho_max = rho;
+                theta_max = theta;
+            end
+        end
+    end
+    % stocking max value coordinantes in predefined arrays
+    k_max(1,i) = max;
+    k_rho(1,i) = rho_max;
+    k_theta(1,i) = theta_max;
+    % setting max value to 0 in order not to take it into account in previous iterrations
+    V(rho_max, theta_max) = 0;
+    
+    
+    for x = 1:width
+        for y=1:height
+            if binary_image1(x,y)==1
+                if abs(x*cos(k_theta(1,i)/100) + y*sin(k_theta(1,i)/100) - k_rho(1,i)) < epsilum
+                    if k_x1(1,i)==0 && k_y1(1,i)==0
+                        k_x1(1,i) = x;
+                        k_y1(1,i) = y;
+                    else
+                        k_x2(1,i) = x;
+                        k_y2(1,i) = y;
+                    end
+               end
+            end
+        end
+    end
+    
+    plot([k_y1(1,i) k_y2(1,i)],[k_x1(1,i) k_x2(1,i)],'-w');
+end
+
+hold off;
+
+%%
+        
+        
