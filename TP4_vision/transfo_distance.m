@@ -4,6 +4,7 @@ image_seuil=rgb2gray(image);
 
 %binarisation 
 image_seuil=binarisation(image_seuil);
+% imshow(image_seuil); % uncomment this line to visualise binary images
 imagesc(image_seuil),colormap gray;
 image_seuil=double(image_seuil);
 
